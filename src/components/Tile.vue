@@ -26,17 +26,18 @@ defineProps<{
 <style scoped>
 .tile {
   /*
-    Tile size scales so all tiles fit within the 500 px board at any word length.
-    --word-length is set on .board and inherited by every tile.
-    Formula: (board_width - gaps) / count, capped at 62 px.
-      gaps  = (word-length - 1) * 5px
-      board = min(90vw, 492px)  (492 ≈ 500 - 8px padding)
+    Tile size is the smallest of three constraints:
+      1. Width:  fit all tiles in the board's horizontal space
+      2. Height: fit 6 rows within the available vertical space
+                 (100dvh minus header ~56px, picker ~47px, keyboard ~148px, padding ~69px = 320px)
+      3. Hard cap: 62px
   */
-  --_max: calc(
+  --_max-w: calc(
     (min(90vw, 492px) - (var(--word-length, 5) - 1) * 5px) /
     var(--word-length, 5)
   );
-  --size: min(var(--_max), 62px);
+  --_max-h: calc((100dvh - 320px) / 6);
+  --size: min(var(--_max-w), var(--_max-h), 62px);
 
   width: var(--size);
   height: var(--size);

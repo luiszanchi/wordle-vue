@@ -119,8 +119,10 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0 1.5rem;
+  padding: clamp(0.25rem, 1.5dvh, 1rem) 0 clamp(0.25rem, 1.5dvh, 1.5rem);
   width: 100%;
-  gap: 1rem;
+  gap: clamp(0.25rem, 1dvh, 1rem);
+  overflow: hidden;
+  min-height: 0;
 }
 </style>

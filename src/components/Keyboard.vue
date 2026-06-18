@@ -59,34 +59,35 @@ function stateFor(key: string): LetterState {
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: clamp(4px, 1.2vw, 6px);
 }
 
 .key {
-  height: 58px;
-  min-width: 43px;
+  /* Width: flex:1 + min-width:0 lets the browser divide available space evenly
+     across all 10 keys in a row, so the keyboard never overflows the viewport. */
+  flex: 1;
+  min-width: 0;
+  height: clamp(44px, 6.5dvh, 58px);
   border: none;
   border-radius: 4px;
   background: var(--color-key-bg);
   color: var(--color-key-text);
-  font-size: 0.85rem;
+  font-size: clamp(0.65rem, 2vw, 0.85rem);
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  max-width: 50px;
   transition: background 0.2s, color 0.2s;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Enter and ⌫ take 1.5× the flex share of a regular key */
 .key--wide {
-  min-width: 65px;
-  max-width: 65px;
-  font-size: 0.75rem;
+  flex: 1.5;
+  font-size: clamp(0.6rem, 1.8vw, 0.75rem);
 }
 
 .key:active {
@@ -97,9 +98,4 @@ function stateFor(key: string): LetterState {
 .key.correct { background: var(--color-correct); color: #fff; }
 .key.present { background: var(--color-present); color: #fff; }
 .key.absent  { background: var(--color-absent);  color: #fff; }
-
-@media (max-width: 380px) {
-  .key { min-width: 30px; font-size: 0.75rem; height: 50px; }
-  .key--wide { min-width: 50px; max-width: 50px; }
-}
 </style>
