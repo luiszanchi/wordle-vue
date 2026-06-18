@@ -1,0 +1,39 @@
+---
+title: Data Flow — useWordle composable → components
+---
+flowchart LR
+    subgraph Composable["useWordle.ts"]
+        rows["rows: GameRow[]"]
+        keyStates["keyStates: Record&lt;string, LetterState&gt;"]
+        gameOver["gameOver / won: Ref&lt;boolean&gt;"]
+        wordLength["wordLength: Ref&lt;number&gt;\nanswersForLength (computed)\nallValid (computed)"]
+        fns["addLetter()\nremoveLetter()\nsubmitGuess()\nresetGame()\nsetWordLength(n)"]
+    end
+
+    subgraph Input["User input"]
+        PK["Physical keyboard\n(App.vue keydown listener)"]
+        VK["Virtual keyboard\n(Keyboard.vue buttons)"]
+        LP["LengthPicker.vue\nbuttons 3–8"]
+    end
+
+    subgraph UI["Components"]
+        Board --> Row --> Tile
+        KBD["Keyboard.vue"]
+        Mod["Modal.vue"]
+    end
+
+    rows -- ":rows" --> Board
+    wordLength -- ":word-length (CSS var)" --> Board
+    wordLength -- "v-model" --> LP
+    keyStates -- ":keyStates" --> KBD
+    gameOver -- "v-if / :won / :answer / :attempts" --> Mod
+
+    PK -- "addLetter / removeLetter / submitGuess" --> fns
+    VK -- "@letter / @backspace / @enter" --> fns
+    LP -- "@update:modelValue → setWordLength" --> fns
+    Mod -- "@playAgain → resetGame" --> fns
+
+    fns -- "mutates" --> rows
+    fns -- "mutates" --> keyStates
+    fns -- "mutates" --> gameOver
+    fns -- "mutates" --> wordLength

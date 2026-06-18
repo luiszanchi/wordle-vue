@@ -1,0 +1,48 @@
+/* ─── Design tokens ──────────────────────────────────────────────────────── */
+:root {
+  /* Tile colours */
+  --color-correct:  #538d4e;
+  --color-present:  #b59f3b;
+  --color-absent:   #3a3a3c;
+
+  /* Borders */
+  --color-border:     #3a3a3c;
+  --color-border-tbd: #565758;
+
+  /* Text */
+  --color-text:       #ffffff;
+  --color-text-muted: #818384;
+
+  /* Backgrounds */
+  --color-bg:         #121213;
+  --color-modal-bg:   #1a1a1b;
+
+  /* Keyboard */
+  --color-key-bg:   #818384;
+  --color-key-text: #ffffff;
+}
+
+/* ─── Reset / base ───────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+body {
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 3px solid var(--color-present);
+  outline-offset: 2px;
+}

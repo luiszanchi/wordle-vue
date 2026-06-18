@@ -1,0 +1,20 @@
+---
+title: Component Hierarchy
+---
+graph TD
+    App["App.vue\n(root · calls useWordle)"]
+
+    LP["LengthPicker.vue\nv-model: wordLength\nemits: update:modelValue"]
+    Board["Board.vue\nprop: rows GameRow[]\nprop: wordLength → sets --word-length CSS var"]
+    Keyboard["Keyboard.vue\nprop: keyStates\nemits: letter · enter · backspace"]
+    Modal["Modal.vue\nv-if gameOver\nprop: won · answer · attempts\nemits: playAgain"]
+
+    Row["Row.vue\nprop: row GameRow\nclass .shake on status=invalid"]
+    Tile["Tile.vue\nprop: letter · state · revealed · index\ninherits --word-length → computes --size\nclass .flip on revealed · class .pop on tbd"]
+
+    App --> LP
+    App --> Board
+    App --> Keyboard
+    App --> Modal
+    Board --> Row
+    Row --> Tile

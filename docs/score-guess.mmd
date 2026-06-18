@@ -1,0 +1,32 @@
+---
+title: scoreGuess — duplicate-safe two-pass algorithm
+---
+flowchart TD
+    Start(["scoreGuess(guess, answer)"])
+
+    Init["result = ['absent' × 5]\nremaining = answer.split('')"]
+
+    P1H(["Pass 1 — greens\nfor i = 0 → 4"])
+    P1C{"guess[i] === answer[i]?"}
+    P1Y["result[i] = 'correct'\nremaining[i] = ''  ← consume"]
+    P1N["skip"]
+
+    P2H(["Pass 2 — yellows\nfor i = 0 → 4"])
+    P2Skip{"result[i] already\n'correct'?"}
+    P2C{"remaining.indexOf\n(guess[i]) !== -1?"}
+    P2Y["result[i] = 'present'\nremaining[idx] = ''  ← consume"]
+    P2N["result[i] stays 'absent'"]
+
+    End(["return result"])
+
+    Start --> Init --> P1H
+    P1H --> P1C
+    P1C -- yes --> P1Y --> P1H
+    P1C -- no  --> P1N --> P1H
+    P1H -- done --> P2H
+    P2H --> P2Skip
+    P2Skip -- yes, skip --> P2H
+    P2Skip -- no --> P2C
+    P2C -- yes --> P2Y --> P2H
+    P2C -- no  --> P2N --> P2H
+    P2H -- done --> End
